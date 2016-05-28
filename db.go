@@ -3,6 +3,7 @@ package monitor_db
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 type Database struct {
@@ -40,8 +41,23 @@ func (db *Database) ListComputers() []*Computer {
 	for _, cp := range db.computers {
 		retval = append(retval, cp)
 	}
-	fmt.Println("Returning")
 	return retval
+}
+
+// Remove computers that have an Updated date earlier than
+// specified
+func (db *Database) PurgeOldComputers(minhours int) {
+	max_age := time.Duration(minhours) * time.Hour
+
+	new_db := make(map[string]*Computer, 0)
+
+	for _, cp := range db.computers {
+		age := time.Since(cp.Updated)
+		if age < max_age {
+			new_db[cp.Name] = cp
+		}
+	}
+	db.computers = new_db
 }
 
 func (db *Database) PrintComputers() {

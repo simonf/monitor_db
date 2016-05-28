@@ -15,6 +15,7 @@ type Service struct {
 type Computer struct {
 	Name     string // name of the server
 	Status   string
+	IP       string
 	Services []*Service
 	Updated  time.Time
 }
