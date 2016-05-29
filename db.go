@@ -20,7 +20,6 @@ func (db *Database) AddComputer(item *Computer) {
 	db.mutex.Lock()
 	db.computers[item.Name] = item
 	db.mutex.Unlock()
-	fmt.Println("Added")
 }
 
 func (db *Database) GetComputer(name string) (*Computer, error) {
