@@ -33,6 +33,7 @@ func NewComputerFromJSON(js []byte) *Computer {
 	} else {
 		return &c
 	}
+	return nil
 }
 
 func (s *Service) String() string {

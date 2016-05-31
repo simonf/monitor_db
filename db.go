@@ -31,6 +31,7 @@ func (db *Database) GetComputer(name string) (*Computer, error) {
 	} else {
 		return c, nil
 	}
+	return nil,nil
 }
 
 func (db *Database) ListComputers() []*Computer {
@@ -64,3 +65,4 @@ func (db *Database) PrintComputers() {
 		fmt.Println(st)
 	}
 }
+
