@@ -2,6 +2,7 @@ package monitor_db
 
 import (
 	"fmt"
+	"sort"
 	"sync"
 	"time"
 )
@@ -10,6 +11,14 @@ type Database struct {
 	mutex     *sync.Mutex
 	computers map[string]*Computer
 }
+
+// ByAge implements sort.Interface for []Person based on
+// the Age field.
+type ByName []*Computer
+
+func (a ByName) Len() int           { return len(a) }
+func (a ByName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByName) Less(i, j int) bool { return a[i].Name < a[j].Name }
 
 func NewDatabase() *Database {
 	m := make(map[string]*Computer, 0)
@@ -31,7 +40,7 @@ func (db *Database) GetComputer(name string) (*Computer, error) {
 	} else {
 		return c, nil
 	}
-	return nil,nil
+	return nil, nil
 }
 
 func (db *Database) ListComputers() []*Computer {
@@ -41,6 +50,7 @@ func (db *Database) ListComputers() []*Computer {
 	for _, cp := range db.computers {
 		retval = append(retval, cp)
 	}
+	sort.Sort(ByName(retval))
 	return retval
 }
 
@@ -65,4 +75,3 @@ func (db *Database) PrintComputers() {
 		fmt.Println(st)
 	}
 }
-
