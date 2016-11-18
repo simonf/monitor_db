@@ -26,6 +26,7 @@ func NewDatabase() *Database {
 }
 
 func (db *Database) AddComputer(item *Computer) {
+	item.Updated = time.Now()
 	db.mutex.Lock()
 	db.computers[item.Name] = item
 	db.mutex.Unlock()
